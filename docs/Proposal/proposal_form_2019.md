@@ -4,9 +4,13 @@
 
 #### SECTION A 
 **Project Title:** Automated Detection of Stolen Images
+
 **Student Name:** Thomas Doyle
+
 **Student ID:** 15350316
+
 **Stream:** CASE
+
 **Project Supervisor Name:** 
 
 [Note: It is the student’s responsibility to ensure that the Supervisor accepts your project and this is only recognised once the Supervisor assigns herself/himself via the project dashboard. Project proposals without an assigned Supervisor will not be accepted for presentation to the Approval Panel.]
