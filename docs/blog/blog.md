@@ -126,7 +126,7 @@ $ cmake -D CMAKE_BUILD_TYPE=RELEASE \
         -D BUILD_EXAMPLES=ON ..
 ```
 
-![cmake output screenshot](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/blob/master/docs/blog/images/cmakeScreenshot.png)
+![cmake output screenshot](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/raw/master/docs/blog/images/cmakeScreenshot.png)
 
 * Once configurationg is done you must ensure that the output is the same in the photo concerning python. Check that python3 is the python that is being found and that it is infact being found
 * You may run into a lot of errors if you have more than one version of python (especially if you have two version of python3, i.e 3.5 and 3.6)
