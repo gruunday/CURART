@@ -244,3 +244,5 @@ results = cv2.drawMatches(org_img, key_points1, comp_img, key_points2, good_poin
 
 ![key point matches screenshot](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/raw/master/docs/blog/images/KeyPointMatches.png)
 
+
+Above we see two images of different sizes, one an original of a painting. The other a camera photo of a painting but it is not framed correctly, it has flash in the centre bottom and it has been inverted. The key point matching system still finds there are key points matching in the images. 
