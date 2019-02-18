@@ -28,7 +28,6 @@ def get_match(desc1, desc2):
     for m, n in matches:
         if m.distance < ratio * n.distance:
             good_points.append(m)
-    print(len(good_points))
     return good_points
 
 def rotate_img(image):
@@ -38,42 +37,48 @@ def rotate_img(image):
 
 
 if __name__ == '__main__':
-    org_img = cv2.imread("orginal.jpg")
-    comp_img = cv2.imread("upside.jpg")
+    # org_img = cv2.imread("mark2.jpg")
+    # comp_img = cv2.imread("mark3.jpg")
 
 #  Implementing finding an image in a directory of images
-#    file_lst = []
-#    os.chdir("/mydir")
-#    for f in glob.glob("*.jpg"):
-#        file_lst.append(f)
-#
-#    for f in file_lst:
-#
+    file_lst = []
+    #os.chdir("/mydir")
+    for f in glob.glob("*.jpg"):
+        file_lst.append(f)
 
-    # Check images are equal to each other
-#    if org_img.shape == comp_img.shape:
-#        print("Same size and channels")
-#        diff = cv2.subtract(org_img, comp_img)
-#        b, g, r = cv2.split(diff)
-#    
-#        if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
-#            print("Images Equal")
-#        else:
-#            print("No Equal")
-    
-    
-    for i in range(0, 1):
-        org_keypoints, comp_keypoints = get_keypoints(org_img, comp_img)
-        key_points1, desc1 = org_keypoints
-        key_points2, desc2 = comp_keypoints
-        good_points = get_match(desc1, desc2)
+    org_img = cv2.imread(file_lst[0])
+    for f in file_lst[1:]:
+        comp_img = cv2.imread(f)
+
+        # Check images are equal to each other
+        if org_img.shape == comp_img.shape:
+            print("Same size and channels")
+            diff = cv2.subtract(org_img, comp_img)
+            b, g, r = cv2.split(diff)
         
-        results = cv2.drawMatches(org_img, key_points1, comp_img, key_points2, good_points, None)
-   
-        cv2.imshow("result", results)
-        cv2.imshow("Org", org_img)
-        cv2.imshow("Dup", comp_img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+            if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
+                print("Images Equal")
+            else:
+                print("No Equal")
     
-        comp_img = rotate_img(comp_img)
+        max_points = 0
+        for i in range(0, 1):
+            org_keypoints, comp_keypoints = get_keypoints(org_img, comp_img)
+            key_points1, desc1 = org_keypoints
+            key_points2, desc2 = comp_keypoints
+            print(key_points1[0])
+            #print(desc1)
+            good_points = get_match(desc1, desc2)
+            results = cv2.drawMatches(org_img, key_points1, comp_img, key_points2, good_points, None)
+       
+            #cv2.imshow("result", results)
+            max_points += min([len(desc1), len(desc2)])
+            relevence = (len(good_points) / max_points) * 4
+            #cv2.imshow("Org", org_img)
+            #cv2.imshow("Dup", comp_img)
+            #cv2.waitKey(0)
+            cv2.destroyAllWindows()
+        
+            comp_img = rotate_img(comp_img)
+
+        print(relevence)
