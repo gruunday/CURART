@@ -1,0 +1,9 @@
+before_script:
+    - apt-get update
+    - python3 -V
+
+test:
+    script:
+        - cd src/playground/
+        - python3 hello-world.py 
+     
