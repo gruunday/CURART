@@ -8,6 +8,8 @@
 
 * [Large Scale Online Learning of Image Similarity through Ranking](http://ai.stanford.edu/~gal/Papers/chechik_jmlr2009.pdf)
 
+* [-SIFT: -Dimensional Scale Invariant Feature Transfor](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=5067284)
+
 ## Helpful Articles
 
 * [Bag-of-words model in computer vision](https://en.wikipedia.org/wiki/Bag-of-words_model_in_computer_vision)
