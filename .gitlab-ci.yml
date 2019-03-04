@@ -1,7 +1,7 @@
 image: amazonlinux
 
 before_script:
-    - apt-get update
+    - yum update
     - python3 -V
 
 test:
