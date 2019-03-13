@@ -1,48 +1,13 @@
-# My Project Title
+# CURART
 
-This is a template for CA400 projects.  Please read these instructions carefully.
+[![pipeline status](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/badges/master/pipeline.svg)](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/commits/master)
 
-This file is written in
-[markdown](https://guides.github.com/features/mastering-markdown/).  Markdown
-is a suitable format for documents stored in git repositories.
+# Intro
 
-## Instructions
+This project is written in python 3 to attempt to match images and artworks. The purpose of this is to attempt to find people who are using images that are copywright, modified from original or find the source of an artwork. This is implemented using the OpenCV version of the SIFT algorithm. Therefore it is not for comercial use and purely a research project. 
 
-You *must* do the following:
+The second aim of the project is to work fast as scale. 
 
-1 - Fork this repo.
-
-2 - Rename your fork using the format (all lower case letters)
-
-    2018-ca400-username
-
-replacing `username` with your School of Computing login name.
-
-For example, if Stephen Blott were to be doing a fourth-year project, he would rename
-his repo as:
-
- 2018-ca400-sblott
-
-You can rename your repo by selecting *Edit Project* from the drop-down menu
-(with a gear icon) on the top right of your project's home page.  Change the
-*Project name* field **and** the *Path*.
-
-You should also update the *Project description*.
-
-3 - This directory has two sub-directories.
-
-- All of your source code should be placed in the `src` sub-directory.
-
-- All of your documentation should be placed in the `docs` sub-directory.
-
-- Your project blog should be placed in the `blog` sub-directory. 
-
-
-4 - There is further important documentation in the `docs` directory.  Read that next.
-
-When you are have followed all of these instructions and are sure that you
-understand what is expected, you may replace the contents of this file with a
-brief description of your project (two or three paragraphs).
 
 ## Additional Resources
 
