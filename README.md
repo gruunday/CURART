@@ -1,4 +1,5 @@
 # CURART
+![CURART LOGO](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/raw/master/docs/blog/images/CURART_BANNER.png)
 
 [![pipeline status](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/badges/master/pipeline.svg)](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-XXXX/commits/master)
 
