@@ -75,27 +75,26 @@ def match_images(img1, img2):
     comp_img = cv2.imread(img2)
 
         # Check images are exactly equal to each other
-        if org_img.shape == comp_img.shape:
-            diff = cv2.subtract(org_img, comp_img)
-            b, g, r = cv2.split(diff)
-        
-            if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
-                return "Images Exactly Identical"
-               
+    if org_img.shape == comp_img.shape:
+        diff = cv2.subtract(org_img, comp_img)
+        b, g, r = cv2.split(diff)
+        if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
+            return "Images Exactly Identical"
+           
         # Will get the matching points of two images
         # for all orientations and return a percentage 
-        max_points = 0
-        for i in range(0, 1):
-            org_keypoints, comp_keypoints = get_keypoints(org_img, comp_img)
-            key_points1, desc1 = org_keypoints
-            key_points2, desc2 = comp_keypoints
-            good_points = get_match(desc1, desc2)
-            max_points += min([len(desc1), len(desc2)])
-            relevence = (len(good_points) / max_points) * 4
-        
-            comp_img = rotate_img(comp_img)
+    max_points = 0
+    for i in range(0, 1):
+        org_keypoints, comp_keypoints = get_keypoints(org_img, comp_img)
+        key_points1, desc1 = org_keypoints
+        key_points2, desc2 = comp_keypoints
+        good_points = get_match(desc1, desc2)
+        max_points += min([len(desc1), len(desc2)])
+        relevence = (len(good_points) / max_points) * 4
+    
+        comp_img = rotate_img(comp_img)
 
-        return relevence
+    return relevence
 
 if __name__ == '__main__':
     print(match_images('default.jpg', 'upside.jpg'))
