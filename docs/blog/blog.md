@@ -1,4 +1,4 @@
-# Blog: Visual Search for Stolen Artworks
+# Blog: CURART - A Visual Search for Copywrite Artworks
 
 **TOM DOYLE**
 
