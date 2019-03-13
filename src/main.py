@@ -4,6 +4,17 @@ import time
 import glob, os
 
 def get_keypoints(org_img, comp_img):
+    '''
+    ****** Take one image and call twice refactor this function *************
+
+    Takes two images and returns two touples of keypoints and descriptors
+    
+    org_img: cv2.imread object
+    comp_img: cv2.imread object
+
+    returns: ((matrix of key points, matrix of descriptors), 
+              (matrix of key points, matrix of descriptors))
+    '''
     # Load the sift algorithm
     sift = cv2.xfeatures2d.SIFT_create()
 
@@ -14,6 +25,15 @@ def get_keypoints(org_img, comp_img):
     return ((key_points1, desc1), (key_points2, desc2))
     
 def get_match(desc1, desc2):
+    '''
+    Takes two matrixes of descriptors about and image and uses a Flann based matcher
+    to match these matrixes
+
+    desc1: matrix of descriptors
+    desc2: matrix of descriptors
+
+    returns: list of matching descriptors
+    '''
     # Load FlannBasedMatcher method used to find the matches between descriptors and 2 images
     search_params = dict()
     index_params = dict(algorithm=0, trees=5)
@@ -31,54 +51,51 @@ def get_match(desc1, desc2):
     return good_points
 
 def rotate_img(image):
+    '''
+    Will rotate a matrix corresponding to an image
+
+    image: Matrix corresponding to an image
+
+    returns: Rotated matrix corresponding to an image
+    '''
     rows,cols,u = image.shape
     rot_image = cv2.getRotationMatrix2D((cols/2,rows/2),90,1)
     return cv2.warpAffine(image,rot_image,(cols,rows))
 
+def match_images(img1, img2):
+    ''' 
+    Will attempt to match two images
 
-if __name__ == '__main__':
-    # org_img = cv2.imread("mark2.jpg")
-    # comp_img = cv2.imread("mark3.jpg")
+    img1: string corresponding to filename of image
+    img2: string corresponding to filename of image
+ 
+    results: String, Percentage accuracy
+    '''
+    org_img = cv2.imread(img1)
+    comp_img = cv2.imread(img2)
 
-#  Implementing finding an image in a directory of images
-    file_lst = []
-    #os.chdir("/mydir")
-    for f in glob.glob("*.jpg"):
-        file_lst.append(f)
-
-    org_img = cv2.imread(file_lst[0])
-    for f in file_lst[1:]:
-        comp_img = cv2.imread(f)
-
-        # Check images are equal to each other
+        # Check images are exactly equal to each other
         if org_img.shape == comp_img.shape:
-            print("Same size and channels")
             diff = cv2.subtract(org_img, comp_img)
             b, g, r = cv2.split(diff)
         
             if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
-                print("Images Equal")
-            else:
-                print("No Equal")
-    
+                return "Images Exactly Identical"
+               
+        # Will get the matching points of two images
+        # for all orientations and return a percentage 
         max_points = 0
         for i in range(0, 1):
             org_keypoints, comp_keypoints = get_keypoints(org_img, comp_img)
             key_points1, desc1 = org_keypoints
             key_points2, desc2 = comp_keypoints
-            print(key_points1[0])
-            #print(desc1)
             good_points = get_match(desc1, desc2)
-            results = cv2.drawMatches(org_img, key_points1, comp_img, key_points2, good_points, None)
-       
-            #cv2.imshow("result", results)
             max_points += min([len(desc1), len(desc2)])
             relevence = (len(good_points) / max_points) * 4
-            #cv2.imshow("Org", org_img)
-            #cv2.imshow("Dup", comp_img)
-            #cv2.waitKey(0)
-            cv2.destroyAllWindows()
         
             comp_img = rotate_img(comp_img)
 
-        print(relevence)
+        return relevence
+
+if __name__ == '__main__':
+    print(match_images('default.jpg', 'upside.jpg'))

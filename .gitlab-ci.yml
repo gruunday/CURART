@@ -6,6 +6,6 @@ before_script:
 
 test:
     script:
-        - cd src/playground/
-        - python3 hello-world.py 
+        - cd src/
+        - python3 main.py 
      
