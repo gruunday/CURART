@@ -1,8 +1,9 @@
+import os
 import cv2
 import boto3
 import numpy as np
 import sys
-
+import tlsh
 
 class DataObject:
     '''
@@ -34,6 +35,7 @@ class DataObject:
         '''
         return f'{self.pt}|{self.size}|{self.angle}|{self.response}|\
                 {self.octave}|{self.class_id}|{self.desc}'
+
 
 def get_keypoints(org_img):
     ''' Remove this function and import from other file'''
@@ -95,48 +97,73 @@ def write_s3(body, location, bucket='curart-bucket'):
     )
     return
 
+def write_dynamodb(obj, location, table='curart-table'):
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('curart-table')
+    table.put_item(
+           Item={
+             'location': location,
+             'object': obj,
+                }
+           )
+
+def read_dynamodb():
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('curart-table')
+    response = table.scan()
+    print(response)
 
 if __name__ == '__main__':
-    org_img = cv2.imread('../../default.jpg')
+    org_img = cv2.imread('../orginal.jpg')
     kp,desc = get_keypoints(org_img)
+
     output = pack_keypoints(kp,desc)
-    write_s3(str(output), 'default.local')
+    print(tlsh.hash(str(output).encode('utf-8')))
+    #write_s3(str(output), 'default.local')
+    #write_dynamodb(str(output), 'default.local')
     kp_2,desc_2 = unpack_keypoints(output)
     
     # Ad Hoc Testing
 
-    print('---------------------------------------------')
-    print('             Testing Keypoints               ')
-    print('---------------------------------------------')
-    for k,kp2 in zip(kp,kp_2):
-        if k.pt != kp2.pt:
-            print('fail pt')
-        if k.size != kp2.size:
-          print('fail size')
-        if k.angle != kp2.angle:
-          print('fail angle')
-        if k.response != kp2.response:
-          print('fail responce')
-        if k.octave != kp2.octave:
-          print('fail octave')
-        if k.class_id != kp2.class_id:
-          print('fail class id')
-    print('Done')
+    if len(sys.argv) > 1 and sys.argv[1] == '-t':
 
-
-    print('---------------------------------------------')
-    print('             Testing Descriptors             ')
-    print('---------------------------------------------')   
-    if not np.array_equal(desc, desc_2):
-        print('Descriptors not equal')
-    else:
-        print('Done..All Pass')
+        print('---------------------------------------------')
+        print('             Testing Keypoints               ')
+        print('---------------------------------------------')
+        for k,kp2 in zip(kp,kp_2):
+            if k.pt != kp2.pt:
+                print('fail pt')
+            if k.size != kp2.size:
+              print('fail size')
+            if k.angle != kp2.angle:
+              print('fail angle')
+            if k.response != kp2.response:
+              print('fail responce')
+            if k.octave != kp2.octave:
+              print('fail octave')
+            if k.class_id != kp2.class_id:
+              print('fail class id')
+        print('Done')
+    
+    
+        print('---------------------------------------------')
+        print('             Testing Descriptors             ')
+        print('---------------------------------------------')   
+        if not np.array_equal(desc, desc_2):
+            print('Descriptors not equal')
+        else:
+            print('Done..All Pass')
    
    
-    if len(sys.argv) > 1 and sys.argv[1] == -g:
+    if len(sys.argv) > 1 and sys.argv[1] == '-g':
         org_results = cv2.drawKeypoints(org_img, kp, None, color=(0, 255, 0))
         cmp_results = cv2.drawKeypoints(org_img, kp_2, None, color=(0, 255, 0))
         cv2.imshow("Org", org_results)
         cv2.imshow("Cmp", cmp_results)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+
+
+    if len(sys.argv) > 1 and sys.argv[1] == '-d':
+        print('Data Dump')
+        read_dynamodb()
