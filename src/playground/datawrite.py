@@ -4,6 +4,8 @@ import boto3
 import numpy as np
 import sys
 import tlsh
+import psycopg2
+
 
 class DataObject:
     '''
@@ -113,12 +115,36 @@ def read_dynamodb():
     response = table.scan()
     print(response)
 
+def write_postgres(dhash, datapoint, url='Unknown'):
+    try:
+        conn = psycopg2.connect("dbname='curartdb' user='greenday' \
+                                host='curart.c75fucsgesam.eu-west-1.rds.amazonaws.com' \
+                                port=5432 password='da7aD37a'")
+        cur = conn.cursor()
+    except psycopg2.Error as e:
+        print("Database connection error: ", e)
+        return
+        
+    print(f"""INSERT INTO curartdata VALUES \
+                 ('{str(dhash)}', '{url}', '{str(datapoint)}');""")
+    cur.execute(f"INSERT INTO curartdata VALUES \
+                 ('{str(dhash)}', '{url}', '{str(datapoint)}');")
+    conn.commit()
+
+
 if __name__ == '__main__':
     org_img = cv2.imread('../orginal.jpg')
     kp,desc = get_keypoints(org_img)
 
+    new_desc = []
+    for item in desc:
+        new_desc.append(item)
+
+    print(new_desc)
+
     output = pack_keypoints(kp,desc)
-    print(tlsh.hash(str(output).encode('utf-8')))
+    output_hash = tlsh.hash(str(output).encode('utf-8'))
+    write_postgres(output_hash, new_desc)
     #write_s3(str(output), 'default.local')
     #write_dynamodb(str(output), 'default.local')
     kp_2,desc_2 = unpack_keypoints(output)
