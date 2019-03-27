@@ -5,6 +5,7 @@ import numpy as np
 import sys
 import tlsh
 import psycopg2
+import config as c
 
 
 class DataObject:
@@ -115,36 +116,67 @@ def read_dynamodb():
     response = table.scan()
     print(response)
 
-def write_postgres(dhash, datapoint, url='Unknown'):
+def connect_postgres():
+    '''
+    Opens a connection to a postgres database
+
+    Returns: Database connection object
+    '''
+    conn_str = f"dbname='{c.dbname}' user='{c.user}' \
+            host='{c.host}' port={c.port} password='{c.password}'"
     try:
-        conn = psycopg2.connect("dbname='curartdb' user='greenday' \
-                                host='curart.c75fucsgesam.eu-west-1.rds.amazonaws.com' \
-                                port=5432 password='da7aD37a'")
-        cur = conn.cursor()
+        conn = psycopg2.connect(conn_str)
     except psycopg2.Error as e:
-        print("Database connection error: ", e)
-        return
-        
-    print(f"""INSERT INTO curartdata VALUES \
-                 ('{str(dhash)}', '{url}', '{str(datapoint)}');""")
+        return ("Database connection error: ", e)
+    return conn
+
+def write_postgres(dhash, datapoint, url='Unknown'):
+    '''
+    Takes a hash of datapoint, datapoint and source url and writes that to the database
+
+    dhash: String (Hash of datapoints)
+    datapoint: String (Keypoints of an image)
+    url: String (Source of image)
+
+    Returns None
+    '''
+    conn = connect_postgres() 
+    cur = conn.cursor()
     cur.execute(f"INSERT INTO curartdata VALUES \
                  ('{str(dhash)}', '{url}', '{str(datapoint)}');")
     conn.commit()
+    conn.close()
+    return
 
+def query_postgres(dhash):
+    '''
+    Reads in a hash and queries database for a similar hash
+
+    dhash: String (Hash of keypoints)
+
+    Returns: String (Results of query)
+    '''
+    conn = connect_postgres()
+    cur = conn.cursor()
+    cur.execute(f"SELECT hash, url, datapoint \
+                  FROM curartdata \
+                  WHERE soundex(hash) = soundex('{dhash}')")
+    results = cur.fetchall()
+    conn.close()
+    return  results
 
 if __name__ == '__main__':
-    org_img = cv2.imread('../orginal.jpg')
+    org_img = cv2.imread('orginal.jpg')
     kp,desc = get_keypoints(org_img)
 
     new_desc = []
     for item in desc:
         new_desc.append(item)
 
-    print(new_desc)
 
     output = pack_keypoints(kp,desc)
     output_hash = tlsh.hash(str(output).encode('utf-8'))
-    write_postgres(output_hash, new_desc)
+    #write_postgres(output_hash, new_desc)
     #write_s3(str(output), 'default.local')
     #write_dynamodb(str(output), 'default.local')
     kp_2,desc_2 = unpack_keypoints(output)

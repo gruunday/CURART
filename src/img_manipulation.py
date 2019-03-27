@@ -3,9 +3,10 @@ import cv2
 import time
 import glob, os
 
-def get_keypoints(org_img, comp_img):
+def get_keypoints_dep(org_img, comp_img):
     '''
     ****** Take one image and call twice refactor this function *************
+    This function has been depricated and will be removed in next refactor
 
     Takes two images and returns two touples of keypoints and descriptors
     
@@ -23,7 +24,23 @@ def get_keypoints(org_img, comp_img):
     key_points2, desc2 = sift.detectAndCompute(comp_img, None)
 
     return ((key_points1, desc1), (key_points2, desc2))
+
+def get_keypoints(img):
+    '''
+    Takes an image and returns its keypoints and descriptors
     
+    img: cv2.imread object
+
+    returns: (matrix of key points, matrix of descriptors) 
+    '''
+    # Load the sift algorithm
+    sift = cv2.xfeatures2d.SIFT_create()
+
+    # Find keypoints and descriptors of org image and image to compare
+    key_points, desc = sift.detectAndCompute(img, None)
+
+    return (key_points, desc)
+   
 def get_match(desc1, desc2):
     '''
     Takes two matrixes of descriptors about and image and uses a Flann based matcher
@@ -62,6 +79,16 @@ def rotate_img(image):
     rot_image = cv2.getRotationMatrix2D((cols/2,rows/2),90,1)
     return cv2.warpAffine(image,rot_image,(cols,rows))
 
+def load_img(img):
+    '''
+    Takes a file name and loads that image into an opencv matrix
+
+    img: String
+
+    returns: opencv matrix
+    '''
+    return cv2.imread(img)
+
 def match_images(img1, img2):
     ''' 
     Will attempt to match two images
@@ -85,7 +112,7 @@ def match_images(img1, img2):
         # for all orientations and return a percentage 
     max_points = 0
     for i in range(0, 1):
-        org_keypoints, comp_keypoints = get_keypoints(org_img, comp_img)
+        org_keypoints, comp_keypoints = get_keypoints_dep(org_img, comp_img)
         key_points1, desc1 = org_keypoints
         key_points2, desc2 = comp_keypoints
         good_points = get_match(desc1, desc2)
