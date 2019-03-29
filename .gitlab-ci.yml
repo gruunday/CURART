@@ -1,7 +1,7 @@
 image: gruunday/opencv-python
 
 before_script:
-    - apt-get update && apt-get install -y python3
+    - pip3 install coverage
     - python3 -V 
 
 test:
