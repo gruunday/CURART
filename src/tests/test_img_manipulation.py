@@ -5,8 +5,6 @@ class TestImgManip(unittest.TestCase):
 
     def setUp(self):
         self.img = im.load_img('testImages/upside.jpg')
-        with open('tests/data.txt', 'r') as f:
-            self.keypoints = f.readline()
 
     def test_load_img(self):
         self.assertEqual(str(type(im.load_img('testImages/upside.jpg'))), \
