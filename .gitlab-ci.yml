@@ -7,4 +7,5 @@ before_script:
 test:
     script:
         - cd src/
-        - python3 -m unittest discover
+        - coverage run --source=. -m unittest discover -v
+        - coverage report -m
