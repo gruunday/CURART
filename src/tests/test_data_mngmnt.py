@@ -13,7 +13,7 @@ class TestImgManip(unittest.TestCase):
         self.ukp,self.udesc = dm.unpack_keypoints(self.packed_kp)
 
     def test_pack_keypoints(self):
-        truth_hash = '88F4EF0B150AAB64803653BA453181152B4EEB5D3963F32CB54E8EFE773958C8FEDC86'
+        truth_hash = '7305851F290AB864816DD37A0021801D2B4EFB5C2563E75DB24E8EFE777A50C8FED496'
         hashed_kp = tlsh.hash(str(self.packed_kp).encode('utf-8'))
         self.assertEqual(truth_hash, hashed_kp)
     
