@@ -27,4 +27,4 @@ class TestImgManip(unittest.TestCase):
 
     def test_match_images(self):
         rotated_img = im.rotate_img(self.img)
-        self.assertGreaterEqual(im.match_images(self.img, rotated_img), 2.1526717557251906)
+        self.assertGreaterEqual(im.match_images(self.img, rotated_img), 2)
