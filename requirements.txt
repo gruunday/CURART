@@ -1,0 +1,4 @@
+Flask
+coverage
+boto3
+tlsh-hash
