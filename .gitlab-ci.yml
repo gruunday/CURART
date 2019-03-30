@@ -7,9 +7,9 @@ before_script:
     - cd tlsh && git checkout master && ./make.sh 
     - cd py_ext/ && python3 ./setup.py build && python3 ./setup.py install && cd ../..
     - python3 -V
+    - cd src/ && mv default_config.py config.py 
 
 test:
     script:
-        - cd src/
         - coverage run --source=. -m unittest discover -v
         - coverage report -m
