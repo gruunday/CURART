@@ -25,6 +25,10 @@ class TestImgManip(unittest.TestCase):
     def test_rotate_img(self):
         self.assertEqual(len(self.img), len(im.rotate_img(self.img)))
 
-    def test_match_images(self):
+    def test_match_images_different(self):
         rotated_img = im.rotate_img(self.img)
         self.assertGreaterEqual(im.match_images(self.img, rotated_img), 2)
+
+    def test_match_images_identical(self):
+        match_result = im.match_images(self.img, self.img)
+        self.assertGreaterEqual(match_result, "Images Exactly Identical")
