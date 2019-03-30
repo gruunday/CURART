@@ -1,7 +1,7 @@
 image: gruunday/opencv-python
 
 before_script:
-    - pip3 install -r requirments.txt
+    - pip3 install -r requirements.txt
     # Temp fix move to docker image
     - git clone git://github.com/trendmicro/tlsh.git
     - cd tlsh && git checkout master && ./make.sh && cd ..
