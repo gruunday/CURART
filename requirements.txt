@@ -1,3 +1,4 @@
 Flask
 coverage
 boto3
+psycopg2
