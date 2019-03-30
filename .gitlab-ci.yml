@@ -5,6 +5,7 @@ before_script:
     # Temp fix move to docker image
     - git clone git://github.com/trendmicro/tlsh.git
     - cd tlsh && git checkout master && ./make.sh && cd ..
+    - cd py_ext/ && python3 ./setup.py build && python3 ./setup.py install
     - python3 -V
 
 test:
