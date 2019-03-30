@@ -1,3 +1,4 @@
+import numpy as np
 import unittest
 import img_manipulation as im
 
@@ -20,3 +21,10 @@ class TestImgManip(unittest.TestCase):
         key_lst = im.get_keypoints(self.img)[0]
         for i in range(len(key_lst)):
             self.assertEqual(str(type(key_lst[i])), "<class 'cv2.KeyPoint'>")
+    
+    def test_rotate_img(self):
+        self.assertEqual(len(self.img), len(im.rotate_img(self.img)))
+
+    def test_match_images(self):
+        rotated_img = im.rotate_img(self.img)
+        self.assertGreaterEqual(im.match_images(self.img, rotated_img), 2.1526717557251906)
