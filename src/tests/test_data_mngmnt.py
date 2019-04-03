@@ -10,6 +10,7 @@ class TestImgManip(unittest.TestCase):
         self.img = im.load_img('testImages/upside.jpg')
         self.kp, self.desc  = im.get_keypoints(self.img)
         self.packed_kp = dm.pack_keypoints(self.kp,self.desc)
+        self.packed_kp = dm.sanatise(self.packed_kp)
         self.ukp,self.udesc = dm.unpack_keypoints(self.packed_kp)
 
     def test_pack_keypoints(self):
