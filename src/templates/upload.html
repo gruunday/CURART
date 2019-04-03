@@ -1,9 +1,26 @@
 <html>
-   <body>
+    <head>
+        <link rel="stylesheet" href="../static/css/stylesheet.css">
+    </head>
+    <body>
+        <div id="logo">
+            <img id="logosrc" src="../static/img/CURART_WIDE.png">
+        </div>
+        <div id="loading"></div>
+    <div id="content">
       <form action = "http://localhost:5000/uploader" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" />
-         <input type = "submit"/>
+         <input type = "submit" onclick="changeImage();"/>
       </form>
+    </div>
+    <script> 
+        function changeImage(){
+        var img = document.getElementById("logosrc");
+        img.src="../static/img/loading.gif";
+        return false;
+        }
+
+    </script>
    </body>
 </html>

@@ -1,6 +1,19 @@
 <html>
+   <head>
+       <link rel="stylesheet" href="../static/css/stylesheet.css">
+   </head>
    <body>
-	<img src="../static/img/download.jpg">
+       <div id="logo">
+            <img src="../static/img/CURART_WIDE.png"> 
+       </div>
+       <div id="content">
+       <img src="../static/img/{{value}}">
+       <div id="button">
+       <form action="http://localhost:5000/upload">
+               <input type="submit" value="Back" />
+       </form>
+       </div>
+       </div>
    </body>
 </html>
 
