@@ -52,8 +52,9 @@ def pack_keypoints(keypoints, desc):
     kp_lst = []
     i = 0
     for point in keypoints:
+        tmp_desc = np.array_str(desc[i]).replace('\n','')
         tmp = DataObject(point.pt, point.size, point.angle, point.response, \
-                            point.octave, point.class_id, desc[i])
+                            point.octave, point.class_id, tmp_desc)
         i += 1
         kp_lst.append(str(tmp))
     return kp_lst
@@ -66,6 +67,7 @@ def unpack_keypoints(kp_lst):
     '''
     kp = []
     desc = []
+    kp_lst = kp_lst.split('\n')
     for item in kp_lst:
         item = item.split('|')
         tmp_x,tmp_y = eval(item[0])
@@ -90,6 +92,18 @@ def connect_postgres():
         return ("Database connection error: ", e)
     return conn
 
+def sanatise(string):
+    string = '\n'.join(string)
+    out_string = ''
+    for char in string:
+        #if char == "'":
+        #    out_string += "\""
+        if char == ' ': 
+            pass
+        else:
+            out_string += char
+    return out_string
+
 def write_postgres(dhash, datapoint, url='Unknown'):
     '''
     Takes a hash of datapoint, datapoint and source url and writes that to the database
@@ -102,8 +116,9 @@ def write_postgres(dhash, datapoint, url='Unknown'):
     '''
     conn = connect_postgres() 
     cur = conn.cursor()
-    cur.execute(f"INSERT INTO curartdata VALUES \
-                 ('{str(dhash)}', '{url}', '{str(datapoint)}');")
+    datapoint = sanatise(datapoint)
+    string = f"INSERT INTO curartdata VALUES ('{str(dhash)}', '{url}', '{str(datapoint)}');"
+    cur.execute(string)
     conn.commit()
     conn.close()
     return
@@ -120,7 +135,9 @@ def query_postgres(dhash):
     cur = conn.cursor()
     cur.execute(f"SELECT hash, url, datapoint \
                   FROM curartdata \
-                  WHERE soundex(hash) = soundex('{dhash}')")
+                  WHERE levenshtein(hash, \'{dhash}\') <= 13\
+                  ORDER BY levenshtein(hash, \'{dhash}\') \
+                  LIMIT 5;")
     results = cur.fetchall()
     conn.close()
     return  results

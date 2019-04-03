@@ -36,7 +36,7 @@ def get_match(desc1, desc2):
     flann = cv2.FlannBasedMatcher(index_params, search_params)
     
     # Find matches between 2 images and store in array
-    matches = flann.knnMatch(desc1, desc2, k=2)
+    matches = flann.knnMatch(np.asarray(desc1,np.float32), np.asarray(desc2,np.float32), k=2)
     
     good_points = []
     ratio = 0.6
