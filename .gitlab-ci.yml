@@ -1,4 +1,4 @@
-image: gruunday/opencv-python
+image: gruunday/opencv-python:latest
 
 before_script:
     - pip3 install -r requirements.txt
