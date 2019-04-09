@@ -1,3 +1,4 @@
+import cv2
 import img_manipulation as im
 import data_mngmnt as dm
 from flask import Flask, render_template, request
@@ -25,7 +26,7 @@ def upload_filer():
 
       # Process Image
       img = im.load_img(f'{FILE_PREFIX}{f.filename}')
-      os.remove(f'{FILE_PREFIX}{f.filename}')
+      #os.remove(f'{FILE_PREFIX}{f.filename}')
       kp, desc = im.get_keypoints(img)
       img_output = dm.pack_keypoints(kp, desc)
       img_hash = tlsh.hash(str(img_output).encode('utf-8'))
@@ -40,8 +41,16 @@ def upload_filer():
       # Return Results
       if len(matches) > 0:
         url = max(matches, key=matches.get)
+        print(matches[url])
         filename = ''.join(random.choice(string.ascii_letters) for i in range(10))
         ureq.urlretrieve(url, f'static/img/{filename}')
+        img_2 = im.load_img(f'static/img/{filename}')
+
+        # Debug
+        results = cv2.drawMatches(img, kp, img_2, tmp_kp, match_score, None)
+        cv2.imshow("result", results)
+        
+        
         return render_template('result.html', value=filename)
       return render_template('nomatch.html')
 

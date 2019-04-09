@@ -56,7 +56,7 @@ def pack_keypoints(keypoints, desc):
         tmp = DataObject(point.pt, point.size, point.angle, point.response, \
                             point.octave, point.class_id, tmp_desc)
         i += 1
-        kp_lst.append(str(tmp))
+        kp_lst.append(tmp.__str__())
     return kp_lst
 
 def unpack_keypoints(kp_lst):
