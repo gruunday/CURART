@@ -20,7 +20,6 @@ def upload_file():
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_filer():
    if request.method == 'POST':
-      loading()
       f = request.files['file']
       f.save(f'{FILE_PREFIX}{secure_filename(f.filename)}')
 
@@ -53,9 +52,6 @@ def upload_filer():
         
         return render_template('result.html', value=filename)
       return render_template('nomatch.html')
-
-def loading():
-    return render_template('loading.html')
 
 if __name__ == '__main__':
    app.run(debug = True)
