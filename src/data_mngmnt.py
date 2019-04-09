@@ -74,8 +74,15 @@ def unpack_keypoints(kp_lst):
         kp.append(cv2.KeyPoint(x=tmp_x,y=tmp_y,_size=float(item[1]),
                               _angle=float(item[2]),_response=float(item[3]), 
                               _octave=int(item[4]),_class_id=int(item[5])))
-        tmp_desc = ''.join(item[6:])[1:-1]
-        desc.append(np.fromstring(tmp_desc, sep=' '))
+        tmp_desc = ' '.join(item[6:])[1:-1]
+        #print(np.fromstring(tmp_desc, sep='.'))
+        tmp_str = ''
+        for char in tmp_desc:
+            if char == '.':
+                tmp_str += char + ' '
+            else:
+                tmp_str += char
+        desc.append(np.fromstring(tmp_str, sep=' '))
     return kp, np.array(desc) 
 
 def connect_postgres():
