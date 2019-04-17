@@ -5,8 +5,12 @@ import numpy as np
 import sys
 import tlsh
 import psycopg2
-import config as c
 
+if not os.path.exists("config.py"):
+    os.system("chmod +x configen.sh")
+    os.system("./configen.sh")
+
+import config as c
 
 class DataObject:
     '''
@@ -95,7 +99,13 @@ def connect_postgres():
             host='{c.host}' port={c.port} password='{c.password}'"
     try:
         conn = psycopg2.connect(conn_str)
+        f = open('panic.log', 'w')
+        f.write('Connection success\n')
+        f.close()
     except psycopg2.Error as e:
+        f = open('panic.log', 'w')
+        f.write('Connection not success')
+        f.close()
         return ("Database connection error: ", e)
     return conn
 
@@ -140,11 +150,13 @@ def query_postgres(dhash):
     '''
     conn = connect_postgres()
     cur = conn.cursor()
+    # levenshtein was 13
     cur.execute(f"SELECT hash, url, datapoint \
                   FROM curartdata \
-                  WHERE levenshtein(hash, \'{dhash}\') <= 13\
+                  WHERE levenshtein(hash, \'{dhash}\') <= 39 \
                   ORDER BY levenshtein(hash, \'{dhash}\') \
                   LIMIT 5;")
+    #cur.execute(f"SELECT hash, url, datapoint FROM curartdata;")
     results = cur.fetchall()
     conn.close()
     return  results

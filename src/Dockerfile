@@ -2,9 +2,9 @@ FROM gruunday/opencv-python3:latest
 
 MAINTAINER Tom Doyle <thomas.doyle9@mail.dcu.ie>
 
-ADD . /curart
+RUN pip3 install Flask coverage boto3 psycopg2-binary gunicorn && mkdir -p /curart/tmp
 
-RUN pip3 install Flask coverage boto3 psycopg2-binary gunicorn
+ADD . /curart
 
 WORKDIR /curart
 
