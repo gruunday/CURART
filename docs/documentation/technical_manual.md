@@ -10,15 +10,14 @@
 2. System Architecture
     - 2.1 Language Choice
 3. High-Level Design
-    - 3.1 Inital Design
-    - 3.2 Current Design
+    - 3.1 Inital vs Current Design
 4. Problems and Resolution
 5. Installation Guide
 6. Configuration 
 7. Testing
     - 7.1 Functional Testing
     - 7.2 Non Functional Testing 
-8. Class Skeletons
+8. Function Usage
 
 ## Introduction
 ### Overview
@@ -71,9 +70,19 @@ The webserver has also now been containerised per container rather than one for 
 
 
 ### Current Design
-
+**TODO**
 
 ## Problems and Resolution
+**TODO**
+
+## Installation Guide
+**TODO**
+
+## Configuration 
+**TODO**
+
+## Testing
+**TODO**
 
 ## Function Usage
 
