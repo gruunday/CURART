@@ -31,12 +31,13 @@ The second aim of the project is to work at scale. If this tool is to be usable 
 ![Context Diagram](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-doylet9/raw/master/docs/documentation/images/Curart_context_diagram.png)
 
 ### Glossary
-OpenCV
-Docker: Any reference to containers, you can presume that these are docker containers unless otherwise stated.
-Container
-Traefic
-AWS
-Postgres
+**TODO**
+* OpenCV
+* Docker: Any reference to containers, you can presume that these are docker containers unless otherwise stated.
+* Container
+* Traefic
+* AWS
+* Postgres
 
 
 ## System Architecture
