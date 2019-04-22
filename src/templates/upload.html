@@ -8,7 +8,7 @@
         </div>
         <div id="loading"></div>
     <div id="content">
-      <form action = "http://localhost:5000/uploader" method = "POST" 
+      <form action = "/uploader" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" />
          <input type = "submit" onclick="changeImage();"/>
@@ -17,7 +17,7 @@
     <script> 
         function changeImage(){
         var img = document.getElementById("logosrc");
-        img.src="../static/img/loading.gif";
+        img.src="/static/img/loading.gif";
         return false;
         }
 
