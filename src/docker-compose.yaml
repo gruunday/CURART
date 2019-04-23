@@ -32,12 +32,16 @@ services:
         ports:
             - "443:443"
             - "80:80"
+            - "8080:8080"
         networks:
             - proxy
         volumes:
-            - "/var/run/docker.sock:/var/run/docker.sock"
-            - "/etc/containers/traefik/traefik.toml:/traefik.toml"
-            - "/etc/containers/traefik/acme.json:/acme.json"
+            - "/var/run/docker.sock:/var/run/docker.sock:ro"
+            - "/etc/containers/traefik/traefik.toml:/traefik.toml:ro"
+            - "/etc/containers/traefik/acme.json:/acme.json:rw"
         labels:
+            - "traefik.enable=true"
+            - "traefik.backend=traefik"
             - "traefik.frontend.rule=Host:monitor.dtom.dev"
+            - "traefik.docker.network=proxy"
             - "traefik.port=8080"
