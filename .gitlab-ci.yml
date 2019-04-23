@@ -24,4 +24,5 @@ test:
 deploy:
     stage: deploy
     script:
-        - chmod +x deploy && ./deploy
+        - chmod +x deploy 
+        - ssh greenday@panoptes.xyz DBNAME=$DBNAME 'bash -s' < deploy
