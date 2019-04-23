@@ -39,8 +39,5 @@ services:
             - "/etc/containers/traefik/traefik.toml:/traefik.toml:ro"
             - "/etc/containers/traefik/acme.json:/acme.json:rw"
         labels:
-            - "traefik.enable=true"
-            - "traefik.backend=traefik"
             - "traefik.frontend.rule=Host:monitor.dtom.dev"
-            - "traefik.docker.network=proxy"
             - "traefik.port=8080"
