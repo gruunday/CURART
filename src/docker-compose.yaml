@@ -1,0 +1,27 @@
+version: '3'
+
+networks:
+  proxy:
+    external: true
+  internal:
+    external: false
+
+services:
+    curart:
+        restart: always
+        build:
+            context: .
+        environment:
+            DBUSER: ${DBUSER:-latest}
+            DBPASSWORD: ${DBPASSWORD:-latest}
+            DBHOST: ${DBHOST:-latest}
+            DBNAME: ${DBNAME:-latest}
+            DBPORT: 5432
+        labels:
+            - traefik.backend=upload
+            - traefik.frontend.rule=Host:upload.dtom.dev
+            - traefik.docker.network=proxy
+            - traefik.port=8080
+        networks:
+            - internal
+            - proxy
