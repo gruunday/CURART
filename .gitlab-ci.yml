@@ -14,7 +14,7 @@ test:
 build:
     stage: deploy
     script:
-        - cat $PROD_SSH_KEY > deploy_key.pem
+        - echo $PROD_SSH_KEY > deploy_key.pem
         - ssh -i deploy_key.pem greenday@panoptes.xyz DBNAME=$DBNAME << EOF 
             echo $DBNAME 
           EOF
