@@ -29,6 +29,7 @@ services:
         image: traefik:alpine
         container_name: traefik
         restart: always
+        command: --docker
         ports:
             - "443:443"
             - "80:80"
