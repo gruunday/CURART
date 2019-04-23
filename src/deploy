@@ -1,4 +1,3 @@
 set -e
-echo $DBNAME
-touch hello.txt
-echo "Deploy script was here" > /home/greenday/wazere.txt
+cd /home/greenday/prod/
+docker-compose up -d --build
