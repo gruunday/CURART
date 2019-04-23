@@ -26,7 +26,7 @@ services:
             - internal
             - proxy
     traefik:
-        image: traefik:latest
+        image: traefik:alpine
         container_name: traefik
         restart: always
         ports:
