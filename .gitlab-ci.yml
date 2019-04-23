@@ -20,6 +20,6 @@ test:
 build:
     stage: deploy
     script:
-        - ssh greenday@panoptes.xyz DBNAME=$DBNAME << EOF  
-            echo $DBNAME 
-          EOF
+        - ssh greenday@panoptes.xyz DBNAME=$DBNAME << EOF 
+          echo $DBNAME
+EOF
