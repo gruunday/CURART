@@ -21,7 +21,7 @@ deploy:
     stage: deploy
     script:
         # TMP FIX
-        - apt-get install rsync
+        - apt-get install rsync -y
         - rsync -r -v -e ssh ../src greenday@panoptes.xyz:/home/greenday/prod/
         - chmod +x deploy 
         - ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBNAME=$DBNAME 'bash -s' < deploy
