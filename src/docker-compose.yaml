@@ -37,7 +37,7 @@ services:
         volumes:
             - "/var/run/docker.sock:/var/run/docker.sock"
             - "/etc/containers/traefik/traefik.toml:/traefik.toml"
-            - "/etc/containers/traefik/traefik.toml:/acme.json"
+            - "/etc/containers/traefik/acme.json:/acme.json"
         labels:
             - "traefik.frontend.rule=Host:monitor.dtom.dev"
             - "traefik.port=8080"
