@@ -6,6 +6,13 @@ before_script:
     - cd src/ && mv default_config.py config.py 
 
 test:
+    stage: test
     script:
         - coverage run --source=. -m unittest discover -v
         - coverage report -m
+
+build:
+    stage: build
+    script:
+        - ls /home/
+        
