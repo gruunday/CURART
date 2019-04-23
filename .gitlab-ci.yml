@@ -15,6 +15,6 @@ build:
     stage: deploy
     script:
         - echo $PROD_SSH_KEY > deploy_key
-        - ssh -i deploy_key greenday@panoptes.xyz DBNAME=$DBNAME << EOF 
+        - ssh -i deploy_key greenday@panoptes.xyz DBNAME=$DBNAME << EOF  
             echo $DBNAME 
           EOF
