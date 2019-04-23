@@ -1,9 +1,6 @@
 image: gruunday/opencv-python3:latest
 
 before_script:
-    - pip3 install -r requirements.txt
-    - python3 -V
-    - cd src/ && mv default_config.py config.py 
     # Setup SSH deploy keys
     - 'which ssh-agent || ( apt-get install -qq openssh-client )'
     - eval $(ssh-agent -s)
@@ -14,6 +11,9 @@ before_script:
 test:
     stage: test
     script:
+        - pip3 install -r requirements.txt
+        - python3 -V
+        - cd src/ && mv default_config.py config.py 
         - coverage run --source=. -m unittest discover -v
         - coverage report -m
 
@@ -22,4 +22,7 @@ deploy:
     script:
         - rsync -r -v -e ssh . greenday@panoptes.xyz:/home/greenday/prod/
         - chmod +x deploy 
-        - ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBNAME=$DBNAME 'bash -s' < deploy
+        - ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER 'bash -s' < deploy
+    stage: deploy-testing
+    script:
+        - git 
