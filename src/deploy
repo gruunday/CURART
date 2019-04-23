@@ -1,0 +1,4 @@
+ssh greenday@panoptes.xyz DBNAME=$DBNAME << EOF 
+    echo $DBNAME
+    echo "Deploy script was here" > /home/greenday/wazere.txt
+EOF
