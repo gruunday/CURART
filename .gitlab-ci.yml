@@ -12,7 +12,7 @@ test:
         - coverage report -m
 
 build:
-    stage: build
+    stage: deploy
     script:
         - ls /home/
         
