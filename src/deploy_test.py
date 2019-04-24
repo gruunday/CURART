@@ -17,9 +17,9 @@ def redeploy():
     #    sys.path.append(os.getcwd())
 #    print(os.listdir("."))
     os.system('chmod +x deploy.sh')
-    deploy_command = "ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy.sh"
-    process = subprocess.Popen(deploy_command.split(), stdout=subprocess.PIPE, shell=True)
-    return process.communicate()
+    os.system("ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy.sh")
+    #process = subprocess.Popen(deploy_command.split(), stdout=subprocess.PIPE, shell=True)
+    #return process.communicate()
 
 
 def main():
