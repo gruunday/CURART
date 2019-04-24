@@ -30,4 +30,5 @@ test_deployment:
     script:
         - pip3 install requests
         - cd src/
+        - chmod +x configen.sh && ./configen.sh
         - python3 deploy_test.py
