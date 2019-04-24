@@ -20,7 +20,7 @@ def send_alert(message):
 def revert_commit():
     last_commit, commit_time = get_last_commit()
     reset_head(last_commit)
-    output, error = reset_head()
+    output, error = reset_head(last_commit)
     if not error:
         text = "Encoutered error but reset to last known working version"
     else:
