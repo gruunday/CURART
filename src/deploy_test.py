@@ -17,7 +17,7 @@ def redeploy():
     import os 
     print(os.listdir("."))
     os.system('chmod +x deploy')
-    process = subprocess.Popen('./deploy'.split(), stdout=subprocess.PIPE)
+    process = subprocess.Popen('deploy'.split(), stdout=subprocess.PIPE)
     return process.communicate()
 
 def main():
