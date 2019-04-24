@@ -9,7 +9,7 @@ before_script:
     - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
 
 test:
-    stage: test
+    stage: build
     script:
         - pip3 install -r requirements.txt
         - python3 -V
@@ -18,14 +18,15 @@ test:
         - coverage report -m
 
 deploy:
-    stage: deploy
+    stage: test
     script:
         - cd src/
         - rsync -r -v -e ssh . greenday@panoptes.xyz:/home/greenday/prod/
         - chmod +x deploy 
         - ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy
-    
-    stage: test
+   
+test_deployment: 
+    stage: deploy
     script:
         - cd src/ops/
         - python3 deploy_test.py

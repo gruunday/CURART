@@ -5,9 +5,7 @@ def check_up():
     r = requests.get('https://upload.dtom.dev')
     return r.status_code
 
-def send_alert():
-    def send_alert(message):
-    #### PROTECTED DO NOT COMMIT ####
+def send_alert(message):
     slack_url = '{slack_url}'
     r = requests.post(slack_url, data=json.dumps(message))
 

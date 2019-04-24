@@ -4,7 +4,7 @@ import json
 import subprocess
 import sys
 
-def get_last_commit():                                                                                                                            #### PROTECTED DO NOT COMMIT ####
+def get_last_commit():
     r = requests.get('https://gitlab.computing.dcu.ie/api/v4/projects/doylet9%2F2019-ca400-doylet9/jobs?scope[]=success', headers={'PRIVATE-TOKEN': '{github_token}'})
     parsed = json.loads(r.text)
     return parsed[0]['commit']['id'], parsed[0]['finished_at']
@@ -15,7 +15,6 @@ def reset_head(last_commit):
     return process.communicate()
 
 def send_alert(message):
-    #### PROTECTED DO NOT COMMIT ####
     slack_url = '{slack_url}'
     r = requests.post(slack_url, data=json.dumps(message))
 
