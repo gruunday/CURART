@@ -14,11 +14,11 @@ def send_alert(message):
     r = requests.post(config.slack_url, data=json.dumps(payload))
 
 def redeploy():
-    sys.path.append(os.getcwd())
-    #print(os.listdir("."))
-    os.system('chmod +x deploy.sh')
+    #    sys.path.append(os.getcwd())
+#    print(os.listdir("."))
+    os.system('chmod +x deploy.sh', shell=True)
     deploy_command = "ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy.sh"
-    process = subprocess.Popen(deploy_command.split(), stdout=subprocess.PIPE)
+    process = subprocess.Popen(deploy_command.split(), stdout=subprocess.PIPE, shell=True)
     return process.communicate()
 
 

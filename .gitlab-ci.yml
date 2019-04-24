@@ -28,8 +28,7 @@ deploy:
 test_deployment: 
     stage: deploy
     script:
-        - pip3 install requests
         - cd src/
+        - pip3 install requests
         - chmod +x configen.sh && ./configen.sh
         - python3 deploy_test.py
-        - if test "$?" != "0"; then chmod +x deploy.sh && ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy.sh; fi
