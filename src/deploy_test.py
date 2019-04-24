@@ -8,7 +8,8 @@ def check_up():
     return r.status_code
 
 def send_alert(message):
-    r = requests.post(config.slack_url, data=json.dumps(message))
+    payload = {'text': f'{message}'}
+    r = requests.post(config.slack_url, data=json.dumps(payload))
 
 def main():
     status = check_up()
@@ -16,6 +17,7 @@ def main():
         send_alert(f'Error responce from prod was {status} \n Trying to revert to last working commit')
     else:
         send_alert(f'Deployment Successful')
+
 
 if __name__ == '__main__':
     main()
