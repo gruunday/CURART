@@ -24,3 +24,8 @@ deploy:
         - rsync -r -v -e ssh . greenday@panoptes.xyz:/home/greenday/prod/
         - chmod +x deploy 
         - ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy
+    
+    stage: deploy_test
+    script:
+        - cd src/ops/
+        - python3 deploy_test.py
