@@ -17,7 +17,7 @@ def reset_head(last_commit):
 def send_alert(message):
     r = requests.post(config.slack_url, data=json.dumps(message))
 
-def main():
+def revert_commit():
     last_commit, commit_time = get_last_commit()
     reset_head(last_commit)
     output, error = reset_head()
@@ -28,10 +28,11 @@ def main():
     message = {'text': f'{text}'}
     send_alert(message)
 
+
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == '-t':
         text = 'Test Alert'
         message = {'text': f'{text}'}
         send_alert(message)
     else:
-        main()
+        revert_commit()
