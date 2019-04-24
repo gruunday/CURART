@@ -1,4 +1,4 @@
-import cv2
+#import cv2
 import img_manipulation as im
 import data_mngmnt as dm
 from flask import Flask, render_template, request
