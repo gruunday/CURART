@@ -15,6 +15,7 @@ def send_alert(message):
 
 def redeploy():
     import os 
+    print(os.listdir("path"))
     os.system('chmod +x deploy')
     process = subprocess.Popen('./deploy'.split(), stdout=subprocess.PIPE)
     return process.communicate()
