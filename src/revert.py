@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 def get_last_commit():
-    r = requests.get('https://gitlab.computing.dcu.ie/api/v4/projects/doylet9%2F2019-ca400-doylet9/jobs?scope[]=success', headers={'PRIVATE-TOKEN': '{github_token}'})
+    r = requests.get('https://gitlab.computing.dcu.ie/api/v4/projects/doylet9%2F2019-ca400-doylet9/jobs?scope[]=success', headers={'PRIVATE-TOKEN': f'{gitlab_token}'})
     parsed = json.loads(r.text)
     return parsed[0]['commit']['id'], parsed[0]['finished_at']
     

@@ -7,7 +7,7 @@ def check_up():
     return r.status_code
 
 def send_alert(message):
-    slack_url = '{slack_url}'
+    slack_url = f'{slack_url}'
     r = requests.post(slack_url, data=json.dumps(message))
 
 def main():
