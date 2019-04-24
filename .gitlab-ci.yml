@@ -28,5 +28,6 @@ deploy:
 test_deployment: 
     stage: deploy
     script:
+        - pip3 install requests
         - cd src/ops/
         - python3 deploy_test.py
