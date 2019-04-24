@@ -22,8 +22,8 @@ deploy:
     script:
         - cd src/
         - rsync -r -v -e ssh . greenday@panoptes.xyz:/home/greenday/prod/
-        - chmod +x deploy 
-        - ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy
+        - chmod +x deploy.sh
+        - ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy.sh
    
 test_deployment: 
     stage: deploy
