@@ -16,8 +16,8 @@ def send_alert(message):
 def redeploy():
     import os 
     print(os.listdir("."))
-    os.system('chmod +x deploy')
-    deploy_command = "ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy"
+    os.system('chmod +x deploy.sh')
+    deploy_command = "ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy.sh"
     process = subprocess.Popen(deploy_command.split(), stdout=subprocess.PIPE)
     return process.communicate()
 
