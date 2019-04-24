@@ -14,7 +14,9 @@ def send_alert(message):
     r = requests.post(config.slack_url, data=json.dumps(payload))
 
 def redeploy():
-    process = subprocess.Popen('chmod +x deploy; ./deploy'.split(), stdout=subprocess.PIPE)
+    import os 
+    os.system('chmod +x deploy')
+    process = subprocess.Popen('./deploy'.split(), stdout=subprocess.PIPE)
     return process.communicate()
 
 def main():
