@@ -32,3 +32,4 @@ test_deployment:
         - cd src/
         - chmod +x configen.sh && ./configen.sh
         - python3 deploy_test.py
+        - if test "$?" != "0"; then; chmod +x deploy.sh && ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy.sh; fi
