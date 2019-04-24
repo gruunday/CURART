@@ -28,6 +28,8 @@ def main():
         output, error = redeploy()
         if error:
             send_alert(f'Error in redeploy {error}')
+        else:
+            send_alert(f'{output}')
     else:
         send_alert(f'Deployment Successful')
 
