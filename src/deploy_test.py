@@ -17,7 +17,8 @@ def redeploy():
     import os 
     print(os.listdir("."))
     os.system('chmod +x deploy')
-    process = subprocess.Popen('./deploy'.split(), stdout=subprocess.PIPE)
+    deploy_command = "ssh greenday@panoptes.xyz DBNAME=$DBNAME DBPASSWORD=$DBPASSWORD DBHOST=$DBHOST DBUSER=$DBUSER DBPORT=$DBPORT 'bash -s' < deploy"
+    process = subprocess.Popen(deploy_command.split(), stdout=subprocess.PIPE)
     return process.communicate()
 
 def main():
