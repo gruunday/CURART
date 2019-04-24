@@ -22,7 +22,7 @@ def revert_commit():
     reset_head(last_commit)
     output, error = reset_head(last_commit)
     if not error:
-        text = "Encoutered error but reset to last known working version"
+        text = "Encoutered error but reset to last known working version \n {output}"
     else:
         text = f"PANIC: tried to reset to last known version but failed with error {error}"
     message = {'text': f'{text}'}
