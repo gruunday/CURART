@@ -1,13 +1,14 @@
 import requests
 import revert
 import json
+import config
 
 def check_up():
     r = requests.get('https://upload.dtom.dev')
     return r.status_code
 
 def send_alert(message):
-    r = requests.post(slack_url, data=json.dumps(message))
+    r = requests.post(config.slack_url, data=json.dumps(message))
 
 def main():
     status = check_up()

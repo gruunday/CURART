@@ -15,8 +15,7 @@ def reset_head(last_commit):
     return process.communicate()
 
 def send_alert(message):
-    slack_url = '{slack_url}'
-    r = requests.post(slack_url, data=json.dumps(message))
+    r = requests.post(config.slack_url, data=json.dumps(message))
 
 def main():
     last_commit, commit_time = get_last_commit()
