@@ -131,7 +131,7 @@ def write_postgres(dhash, datapoint, url='Unknown'):
 
     Returns None
     '''
-    conn = connect_postgres() 
+    conn = connect_postgres()
     cur = conn.cursor()
     datapoint = sanatise(datapoint)
     string = f"INSERT INTO curartdata VALUES ('{str(dhash)}', '{url}', '{str(datapoint)}');"
@@ -149,6 +149,7 @@ def query_postgres(dhash):
     Returns: String (Results of query)
     '''
     conn = connect_postgres()
+    print(type(conn))
     cur = conn.cursor()
     # levenshtein was 13
     cur.execute(f"SELECT hash, url, datapoint \
