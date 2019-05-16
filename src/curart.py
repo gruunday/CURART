@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 import tlsh
 import urllib.request as ureq
 from werkzeug import secure_filename
-import os
+import os, io
 import random
 import string
 app = Flask(__name__)
@@ -22,9 +22,18 @@ def upload_filer():
       f = request.files['file']
       f.save(f'{FILE_PREFIX}{secure_filename(f.filename)}')
 
+      #debug 
+      files = os.listdir('.')
+      for name in files:
+        print(name)
+
+      print('----')
+      files = os.listdir('tmp/')
+      for name in files:
+        print(name)
+
       # Process Image
       img = im.load_img(f'{FILE_PREFIX}{secure_filename(f.filename)}')
-      os.remove(f'{FILE_PREFIX}{secure_filename(f.filename)}')
       kp, desc = im.get_keypoints(img)
       img_output = dm.pack_keypoints(kp, desc)
       img_hash = tlsh.hash(str(img_output).encode('utf-8'))
