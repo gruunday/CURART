@@ -22,16 +22,6 @@ def upload_filer():
       f = request.files['file']
       f.save(f'{FILE_PREFIX}{secure_filename(f.filename)}')
 
-      #debug 
-      files = os.listdir('.')
-      for name in files:
-        print(name)
-
-      print('----')
-      files = os.listdir('tmp/')
-      for name in files:
-        print(name)
-
       # Process Image
       img = im.load_img(f'{FILE_PREFIX}{secure_filename(f.filename)}')
       kp, desc = im.get_keypoints(img)

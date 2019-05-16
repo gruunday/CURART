@@ -15,6 +15,16 @@ class CurartTestCase(unittest.TestCase):
 
     def test_upload_page(self):
         d = {}
+              #debug
+        files = os.listdir('.')
+        for name in files:
+          print(name)
+
+        print('----')
+        files = os.listdir('tmp/')
+        for name in files:
+          print(name)
+
         with open('testImages/upside.jpg', 'rb') as f:
             d['file'] = (io.BytesIO(f.read()), 'testImages/upside.jpg')
             rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
