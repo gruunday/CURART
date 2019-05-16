@@ -31,6 +31,7 @@ The second aim of the project is to work at scale. If this tool is to be usable 
 
 #### Context Diagram
 ![Context Diagram](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-doylet9/raw/master/docs/documentation/images/Curart_context_diagram.png)
+**Figure 1.1** *System context diagram*
 
 ### Glossary
 OpenCV
@@ -43,6 +44,7 @@ Postgres
 
 ## System Architecture
 ![System Architecture Diagram](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-doylet9/raw/master/docs/documentation/images/Curart_system_arch.png)
+**Figure 2.1** *System architecture diagram*
 
 #### Language Choice
 Python is an easy to develop language but has some speed impacts when it comes to heavy computation such as images. But after research into the SIFT algorithm I saw others that had successfully implemented SIFT with python with minimal impacts to speed. [Source](http://aishack.in/tutorials/implementing-sift-opencv/) It became apparent that implementing SIFT was not new and had been done many times before. So rather than reinventing the wheel I wanted to add to work that has been done before me.
@@ -53,36 +55,40 @@ Python has many packages for web frame works that many other low level languages
 
 Python is also the language I am most comfortable in, and one of the non functional requirements of this project is to meet the project deadline. There for this is the language I can get all of the features I want to add into this project in time for the final deadline. 
 
-Python2.7 was not considered because of the end of it's life in 8 months at time of writing.
+Python2.7 was not considered because the end of life for this version is in 8 months at time of writing.
 
-All these points align with me choosing python for this project. 
+All these points resulted in me choosing python 3 for this project. 
 
 
 ## High-Level Design
 
-### Initial Design
+### Initial Design vs Current Design
 
-The initial design of this project has changed a lot since it was first conceived. This was due to lack of experience in using the technologies and also unforeseeable issues that were encountered. We will talk about the differences in this section and we will talk about the problems encountered and why the design has changed in a later section.
+The initial design of this project has changed significantly since it was first conceived. This was due to lack of experience in using the technologies and also unforeseeable issues that were encountered. We will talk about the differences in this section and we will talk about the problems encountered and why the design has changed in a later section.
+
+![original architecture diagram](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-doylet9/raw/master/docs/documentation/images/SystemArchitecture.png)
+**Figure 3.1** *Original design of the project*
 
 The first major design change in the lack of AWS lambda functions. These have been replaced by docker containers that are load balanced by a software defined load balancer called Traefik. This will allow the same amount of scalability but does mean that the base server will have to have to be of sufficient size to handle the traffic rather than a small server that can hand off the computation to another compute module. 
 
-The datastore for this project as also changed from an amazon S3 bucket to a PostgreSQL database hosted by AWS. This pivot was due to the purpose of S3 buckets being an object store and unstructured data. This was a slow design that would involve searching the whole database if you were looking for a best match, like we are. A better solution was to hash object on the way into a PostgreSQL database and create a structured form for them. Then on query we use the Levenshtein distance on the hash to find the best match quickly. This still provides us with the reliability and availability of amazon services which was desirable at the beginning of this project.
+![updated architecture diagram](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-doylet9/raw/master/docs/documentation/images/UpdatedSystemArchitecture.png)
+**Figure 3.2** *Updated design of the project*
 
-The web server has also now been containerised per container rather than one for all. Each container handles its traffic internal. The Traefik load balancer for the containers passes the traffic to the container in a round robin method.
+The datastore for this project as also changed from an amazon S3 bucket to a PostgreSQL database hosted by AWS. This pivot was due to the purpose of S3 buckets being an object store and unstructured data. This was a slow design that would involve searching the whole database if you were looking for a best match like we are rather than retrieving known data. A better solution was to hash the keypoint object on the way into a PostgreSQL database and create a structured form for the data. Then on query we use the Levenshtein distance on the hash to find the best match quickly. This still provides us with the reliability and availability of amazon services which was desirable at the beginning of this project. Postgres also has a Levenshtein function built in. So rather than retrieving all hashes and finding the best match an querying again, we can do the calculation closer to the data speeding up the data retrieval significantly.
 
-
-### Current Design
-**TODO**
+The web server has also now been containerised to run multiple instances on the server rather than one for all incoming traffic. Each container handles its traffic internal. The Traefik load balancer for the containers passes the traffic to the container in a round robin method.
 
 
 ## Problems and Resolution
 **TODO**
+* Lambda problem
+* Database problem
 
 ## Testing
 
 ### Unit Testing
 
-* Once a project is commited to the master branch a Gitlab pipeline is run.
+* Once a project is committed to the master branch a Gitlab pipeline is run.
 * The first step in this is unit testing.
 * PyUnit was used to run these tests and coverage was used to measure the coverage of these tests.
 * The current status of these test are:
@@ -96,7 +102,7 @@ The web server has also now been containerised per container rather than one for
 
 ----
 
-* The image that was used for testing is a custom image written by this development team for this project. It's files can be found [here]()
+* The image that was used for testing is a custom image written by this development team for this project. It's files can be found [here](https://gitlab.computing.dcu.ie/doylet9/opencv-python3)
 * It has it's own deployment and will automatically be uploaded to Dockerhub once the image it built
 * This was necessary because the image takes over an hour to build. This includes installing all the packages necessary to run this application
 * In the pipeline OpenCV is compiled and installed with extra modules
@@ -109,13 +115,41 @@ The web server has also now been containerised per container rather than one for
 * The final stage in the pipeline is to test if the deployment succeeded and it running in production environment
 * If this test fails it triggers and alert that is sent to a slack channel
 * There are no other alerts channels in place because they were deemed out of scope for the context of the project and timeline but is on the backlog for future work
-* In the event the deployment fails the system will attempt to pull from the Gitlab api to find the commit of the last successful build
+* In the event the deployment fails the system will attempt to pull from the Gitlab API to find the commit of the last successful build
 * It will the attempt a git reset and redeploy the last working version and alert the team through the slack channel it has attempted this
 
 ### User Testing
-**TODO**
+* For this project no real users we asked to complete a test of the application. Due to the limited user interaction function and intuitive design.
+
+* This does not mean that there was no user testing done on the application. To verify this application, each user story was taken and a verified the functionality laid out in this document was easy and intuitive. No issues were found while doing these steps and it is believed that this would satisfy a users needs.
+
+### Functional Testing
+Each functional requirement was taken and after a stepping through the application it was verified if the task could be completed
+
+- [x] Must correctly identify image as artwork
+- [x] Must identify artwork as similar despite being slightly altered
+- [x] Must be able to return a result within a defined reasonable time period (reasonable was defined as 10 seconds)
+- [ ] Must be able to find images unsupervised
+- [x] Must be able to store metadata about images not the image
+
+During the testing it was found that one requirement was not met. This was removed because of the complexity around unsupervised web scraping within the domain. This requirement was thought of out of scope within the domain
 
 ## Non Functional Testing
+
+### Time
+- [x] The project was to be completed by the 19th of May 2019 at 23:59 and that has been completed
+
+### Ease of Use
+- [x] This tool has been created with a minimal and intuitive design. It has taken methods and minimal styles like other modern search engines to have a familiar look and feel.
+
+### Storage
+- [x] The storage on this project is hosted by AWS meaning that it is fast and reliable. It has also been small enough to stay on free tier, so it has not hurt the cost constraint.
+
+### Costs
+- [x] The cost of the virtual server is 4 euro a month. Well within a reasonable price. 
+
+### Hardware
+- [x] The hardware has been kept minimal with 2GB of RAM, 1 2GHz VCore and 20GB SSD. This means that the cost can be kept low
 
 ### Speed
 
@@ -133,8 +167,6 @@ The web server has also now been containerised per container rather than one for
 * This is achievable to get AWS cache service working but out of scope for this iteration of the project. 
 * It will remain on the backlog for future work
 
-## Reliability
-**TODO**
 
 ## Algorithms
 
@@ -142,7 +174,7 @@ The web server has also now been containerised per container rather than one for
 
 #### Why use SIFT?
 
-The requirements laid out at the start of this project in the [Functional Spec]() said that for the requirement to be satisfied an accurate result would have to be returned in under 10 seconds. This was a big feat to attempt to accomplish and after much research SIFT was an algorithm that came up again and again in papers.
+The requirements laid out at the start of this project in the [Functional Spec](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-doylet9/blob/master/docs/functional-spec/functional-spec.pdf) said that for the requirement to be satisfied an accurate result would have to be returned in under 10 seconds. This was a big feat to attempt to accomplish and after much research SIFT was an algorithm that came up again and again in papers.
 It was satisfactory algorithm in that it was ignorance of differences in:
    - color
    - size
@@ -159,7 +191,7 @@ After reading the work involved in [implementing this in python](aishack.in/tuto
 
 One library came up again and again and that was OpenCV. This has a C implementation with a python interface which give all the speed of python with the ease of integration of python. This was also recommended as a previously heavily optimised version, developed over a number of years, rather than function in a college project.
 
-This function is an extra module in OpenCV and needs to be compiled in. In this project, that is done in the custom docker image we created with OpenCV and python inside. Feel free to use that image or if you want to compile your own OpenCV check out my [blog]() on how to do that.
+This function is an extra module in OpenCV and needs to be compiled in. In this project, that is done in the custom docker image we created with OpenCV and python inside. Feel free to use that image or if you want to compile your own OpenCV check out my [blog](https://gitlab.computing.dcu.ie/doylet9/2019-ca400-doylet9/blob/master/docs/blog/compiling_open_cv.md) on how to do that.
 
 #### How does SIFT work?
 
@@ -189,6 +221,8 @@ For the database search we wanted to search based on how close the hash was. For
 It is important to remember that the Levenshtein distance works as a holistic to find matching key points but it is very often the case that non matching images with have very close hashes. This is due to the nature of the hash not being design specifically for this purpose. In future work I would love to design my own hashing function that would do this better and give more accurate results. The more accurate the hash function can be the faster this application will become. This will make a huge difference to the speed because every set of keypoints that come from the query are matched against the original image to find the image with the highest amount of keypoints matching. The less of these that there are, will dramatically increase the speed of this search.
 
 To get the most of speed out of the query, we want to calculate the Levenshtein distance as close to the database as possible. If we were to query the database and then run the Lenvenshtein distance in python this would be an almost worthless task. Instead we can implement plsql. This is an extreme learning curve close to the deadline and one that was not accounted for in the gantt char at the planning phase of the project. It was therefore elected to use the function already built into the extra modules of PostgreSQL. This was a fast solution and one that worked very well. 
+
+
 ## Function Usage
 
 #### data_management.py
@@ -312,4 +346,3 @@ def match_images(org_img, comp_img):
     results: String, Percentage accuracy
     '''
 ```
-
