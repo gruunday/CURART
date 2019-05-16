@@ -23,7 +23,7 @@ def upload_filer():
       f.save(f'{FILE_PREFIX}{secure_filename(f.filename)}')
 
       # Process Image
-      img = im.load_img(f'{FILE_PREFIX}{f.filename}')
+      img = im.load_img(f'{FILE_PREFIX}{secure_filename(f.filename)}')
       os.remove(f'{FILE_PREFIX}{secure_filename(f.filename)}')
       kp, desc = im.get_keypoints(img)
       img_output = dm.pack_keypoints(kp, desc)
