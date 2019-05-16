@@ -1,4 +1,5 @@
 import os
+import io
 import curart
 import unittest
 
@@ -11,4 +12,11 @@ class CurartTestCase(unittest.TestCase):
     def test_home_page(self):
         rv = self.app.get('/')
         assert rv.status_code == 200
+
+    def test_upload_page(self):
+        d = {}
+        with open('testImages/upside.jpg', 'rb') as f:
+            d['file'] = (f, 'upside.jpg')
+            rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
+            #assert rv.status_code == 200
 

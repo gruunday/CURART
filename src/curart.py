@@ -24,7 +24,7 @@ def upload_filer():
 
       # Process Image
       img = im.load_img(f'{FILE_PREFIX}{f.filename}')
-      os.remove(f'{FILE_PREFIX}{f.filename}')
+      os.remove(f'{FILE_PREFIX}{secure_filename(f.filename)}')
       kp, desc = im.get_keypoints(img)
       img_output = dm.pack_keypoints(kp, desc)
       img_hash = tlsh.hash(str(img_output).encode('utf-8'))
@@ -35,7 +35,7 @@ def upload_filer():
       for item in result:
           tmp_kp, tmp_desc = dm.unpack_keypoints(item[2])
           match_score = im.get_match(desc, tmp_desc)
-          print(match_score)
+          #print(match_score)
           matches[item[1]] = len(match_score)
       f.write(f'{matches}')
       f.write(f'{len(matches)}')
