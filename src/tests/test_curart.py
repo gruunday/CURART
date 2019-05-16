@@ -15,7 +15,8 @@ class CurartTestCase(unittest.TestCase):
 
     def test_upload_page(self):
         d = {}
-        d['file'] = (open('testImages/upside.jpg', 'rb'), 'testImages/upside.jpg')
-        rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
-        assert rv.status_code == 200
+        with open('testImages/upside.jpg', 'rb') as f:
+            d['file'] = (io.BytesIO(f.read()), 'testImages/upside.jpg')
+            rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
+            assert rv.status_code == 200
 
