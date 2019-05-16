@@ -150,6 +150,7 @@ def query_postgres(dhash):
     '''
     conn = connect_postgres()
     print(type(conn))
+    print(conn)
     cur = conn.cursor()
     # levenshtein was 13
     cur.execute(f"SELECT hash, url, datapoint \
