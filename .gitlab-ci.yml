@@ -15,7 +15,6 @@ test:
         - python3 -V
         - cd src/ && mv default_config.py config.py 
         - mkdir tmp/
-        - python3 -m unittest tests/test_curart.py
         - coverage run --source=. -m unittest discover -v
         - coverage report -m
 
