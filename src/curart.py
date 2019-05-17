@@ -18,6 +18,7 @@ def upload_file():
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_filer():
+   print(flask.__version__)
    if request.method == 'POST':
       f = request.files['file']
       f.save(f'{FILE_PREFIX}{secure_filename(f.filename)}')
