@@ -2,6 +2,7 @@ import os
 import io
 import curart
 import unittest
+import glob
 
 class CurartTestCase(unittest.TestCase):
 
@@ -15,7 +16,10 @@ class CurartTestCase(unittest.TestCase):
 
     def test_upload_page(self):
         d = {}
-        d['file'] = (io.BytesIO(b'test'), 'testImages/upside.jpg')
-        rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
-        assert True
+        print('Dir contents')
+        print(glob.glob("tmp/*"))
+        with open('testImages/upside.jpg', 'rb') as image:
+            d['file'] = (io.BytesIO(image.read()), 'testImages/upside.jpg')
+            rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
+            assert True
 
