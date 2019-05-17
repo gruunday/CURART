@@ -1,7 +1,8 @@
 import os
 import io
 import curart
-import unittest
+import unittesta
+import PIL
 
 class CurartTestCase(unittest.TestCase):
 
@@ -15,10 +16,7 @@ class CurartTestCase(unittest.TestCase):
 
     def test_upload_page(self):
         d = {}
-        import flask
-        print(flask.__version__)
-        with open('testImages/upside.jpg', 'rb') as f:
-            d['file'] = (io.BytesIO(f.read()), 'testImages/upside.jpg')
-            rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
-            assert True
+        d['file'] = (io.BytesIO(b'test'), 'testImages/upside.jpg')
+        rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
+        assert True
 
