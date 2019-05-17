@@ -17,6 +17,6 @@ class CurartTestCase(unittest.TestCase):
         d = {}
         with open('testImages/upside.jpg', 'rb') as f:
             d['file'] = (io.BytesIO(f.read()), 'testImages/upside.jpg')
-            rv = self.app.post('/uploader', data=d, follow_redirects='true', content_type='multipart/form-data')
+            rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
             assert True
 
