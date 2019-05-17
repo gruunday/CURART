@@ -1,8 +1,7 @@
 import os
 import io
 import curart
-import unittesta
-import PIL
+import unittest
 
 class CurartTestCase(unittest.TestCase):
 
