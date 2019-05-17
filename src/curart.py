@@ -27,7 +27,7 @@ def upload_filer():
       kp, desc = im.get_keypoints(img)
       img_output = dm.pack_keypoints(kp, desc)
       img_hash = tlsh.hash(str(img_output).encode('utf-8'))
-      if app.testing:
+      if not app.testing:
         result = dm.query_postgres(img_hash)
       else:
         result = []
