@@ -1,3 +1,4 @@
+import pickle 
 import img_manipulation as im
 import data_mngmnt as dm
 from flask import Flask, render_template, request
@@ -27,21 +28,23 @@ def upload_filer():
       kp, desc = im.get_keypoints(img)
       img_output = dm.pack_keypoints(kp, desc)
       img_hash = tlsh.hash(str(img_output).encode('utf-8'))
+      
       if not app.testing:
         result = dm.query_postgres(img_hash)
       else:
-        result = []
-      f = open('panic.log', 'w')
+        with open('tests/data_uploader.txt', 'rb') as f:
+            result = pickle.load(f)
       
+      f = open('panic.log', 'w')
       matches = {}
       for item in result:
           tmp_kp, tmp_desc = dm.unpack_keypoints(item[2])
           match_score = im.get_match(desc, tmp_desc)
-          #print(match_score)
           matches[item[1]] = len(match_score)
       f.write(f'{matches}')
       f.write(f'{len(matches)}')
       f.close()
+      
       # Return Results
       if len(matches) > 0:
         url = max(matches, key=matches.get)
