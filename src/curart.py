@@ -1,6 +1,7 @@
 import img_manipulation as im
 import data_mngmnt as dm
 from flask import Flask, render_template, request
+import flask
 import tlsh
 import urllib.request as ureq
 from werkzeug import secure_filename
@@ -18,7 +19,7 @@ def upload_file():
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_filer():
-   print(Flask.__version__)
+   print(flask.__version__)
    if request.method == 'POST':
       f = request.files['file']
       f.save(f'{FILE_PREFIX}{secure_filename(f.filename)}')
