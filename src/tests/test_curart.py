@@ -14,12 +14,3 @@ class CurartTestCase(unittest.TestCase):
         rv = self.app.get('/')
         assert rv.status_code == 200
 
-    def test_upload_page(self):
-        d = {}
-        print('Dir contents')
-        print(glob.glob("tmp/*"))
-        with open('testImages/upside.jpg', 'rb') as image:
-            d['file'] = (io.BytesIO(image.read()), 'testImages/upside.jpg')
-            rv = self.app.post('/uploader', data=d, follow_redirects=True, content_type='multipart/form-data')
-            assert True
-
