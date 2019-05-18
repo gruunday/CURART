@@ -10,7 +10,7 @@ def get_last_commit():
     return parsed[0]['commit']['id'], parsed[0]['finished_at']
     
 def reset_head(last_commit):
-    gitResetCommand = f'git reset --hard {last_commit}'
+    gitResetCommand = f'git reset {last_commit} --hard'
     process = subprocess.Popen(gitResetCommand.split(), stdout=subprocess.PIPE)
     return process.communicate()
 
