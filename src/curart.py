@@ -15,7 +15,7 @@ FILE_PREFIX = 'tmp/'
 
 @app.route('/')
 def upload_file():
-   return render_template('break.html')
+   return render_template('upload.html')
 	
 @app.route('/uploader', methods = ['GET', 'POST'])
 def upload_filer():
